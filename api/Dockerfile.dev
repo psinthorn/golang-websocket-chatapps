@@ -1,0 +1,24 @@
+FROM golang:alpine
+WORKDIR $GOPATH/src/github.com/psinthorn/chatthai
+
+# Add Maintainer Info
+LABEL maintainer="Sinthorn Pradutnam <psinthorn@gmail.com>"
+
+COPY . .
+
+RUN go get -d -v ./...
+# Download all the dependencies
+# https://stackoverflow.com/questions/28031603/what-do-three-dots-mean-in-go-command-line-invocations
+
+RUN go get -d -v ./...
+
+# Install the package
+RUN go install -v ./...
+
+# This container exposes port 8080 to the outside world
+# EXPOSE 8000
+
+# Run the executable
+# CMD ["chaithai"]
+
+CMD ["go", "run", "server.go"]
